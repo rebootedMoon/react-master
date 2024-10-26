@@ -67,17 +67,6 @@ const getApi = async () => {
   console.log(api);
 };
 function Coins() {
-  // const [coins, setCoins] = useState<CoinInterface[]>([]);
-  // const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //   (async () => {
-  //     const json = await (
-  //       await fetch("https://api.coinpaprika.com/v1/coins")
-  //     ).json();
-  //     setCoins(json.slice(0, 100));
-  //     setLoading(false);
-  //   })();
-  // }, []);
   const { isLoading, data } = useQuery<ICoin[]>(
     "allCoins",
     fetchCoins
