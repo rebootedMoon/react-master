@@ -152,8 +152,8 @@ function Coin() {
   const [loading, setLoading] = useState(true);
   const { state } = useLocation<RouteState>();
 
-  const priceMatch = useRouteMatch("/coinId/price");
-  const chartMatch = useRouteMatch("/coinId/chart");
+  const priceMatch = useRouteMatch("/:coinId/price");
+  const chartMatch = useRouteMatch("/:coinId/chart");
   useEffect(() => {
     (async () => {
       const infoData = await (
@@ -213,6 +213,7 @@ function Coin() {
           </Overview>
           <Tabs>
             <Tab isActive={chartMatch !== null}>
+              <span></span>
               <Link to={`/${coinId}/Chart`}>Chart</Link>
             </Tab>
             <Tab isActive={priceMatch !== null}>
