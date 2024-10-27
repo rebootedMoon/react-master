@@ -16,3 +16,15 @@ export function fetchCoinTickers(coinId: string) {
     response.json()
   );
 }
+
+export function fetchCharacters() {
+  return fetch(
+    "https://disney_api.nomadcoders.workers.dev/characters"
+  ).then((response) => response.json());
+}
+
+export function fetchDetailCharacter(characterId: string) {
+  return fetch(
+    `https://disney_api.nomadcoders.workers.dev/characters/${characterId}`
+  ).then((response) => response.json());
+}
