@@ -1,8 +1,31 @@
 import Router from "./Router";
 import { createGlobalStyle } from "styled-components";
-import { ReactQueryDevtools } from "react-query/devtools";
+
+// import { ReactQueryDevtools } from "react-query/devtools";
 
 const GlobalStyle = createGlobalStyle`
+
+@font-face {
+  font-family: 'Pretty Dahlia'; 
+  src: url('/fonts/Pretty Dahlia.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+    font-family: 'AlexBrush-Regular';
+    src: url('/fonts/AlexBrush-Regular.ttf') format('truetype'); 
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'waltograph';
+    src: url('/fonts/waltograph42.otf') format('opentype'); 
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+@import url('https://fonts.googleapis.com/css2?family=Bonheur+Royale&family=Cinzel+Decorative:wght@400;700;900&family=Dongle&family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Sofia&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
 
 html, body, div, span, applet, object, iframe,
@@ -56,7 +79,7 @@ table {
   box-sizing: border-box;
 }
 body {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "waltograph", "AlexBrush-Regular", 'Pretty Dahlia', "Bonheur Royale",  system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor}
 }
@@ -71,7 +94,7 @@ function App() {
     <>
       <GlobalStyle />
       <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
     </>
   );
 }

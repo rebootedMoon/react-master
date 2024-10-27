@@ -20,26 +20,39 @@ const Header = styled.div`
 `;
 const Title = styled.h1`
   font-size: 32px;
+  font-weight: 800;
 `;
 const CharacterOverview = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 10px;
 `;
+
 const Character = styled.div`
   margin-bottom: 20px;
+  position: relative;
+
   a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-decoration: none;
+    position: relative;
   }
 `;
+
 const Img = styled.img`
   width: 120px;
   height: 120px;
   border-radius: 50%;
   margin-bottom: 20px;
   object-fit: cover;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+  }
 `;
 const Loader = styled.span`
   text-align: center;
