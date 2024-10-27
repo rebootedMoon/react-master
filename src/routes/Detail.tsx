@@ -64,6 +64,9 @@ const Film = styled.span`
   margin: 5px 5px;
   padding: 6px 10px;
   border-radius: 10px;
+  font-weight: 800;
+  box-shadow: 2px 4px 8px rgba(200, 200, 200, 0.5);
+  outline: 1px solid rgba(255, 255, 255, 0.3);
 `;
 export default function Detail() {
   const { id } = useParams<RouteParams>();

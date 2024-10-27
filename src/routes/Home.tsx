@@ -17,19 +17,21 @@ const Header = styled.div`
   height: 10vh;
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
 `;
 const Title = styled.h1`
-  font-size: 32px;
+  font-family: "waltograph";
+  font-size: 48px;
   font-weight: 800;
 `;
 const CharacterOverview = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
+  gap: 30px;
 `;
 
 const Character = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   position: relative;
 
   a {

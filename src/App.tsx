@@ -12,6 +12,12 @@ const GlobalStyle = createGlobalStyle`
   font-style: normal;
 }
 @font-face {
+  font-family: 'waltograph';
+  src: url('/fonts/waltograph42.otf') format('opentype'); 
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
     font-family: 'AlexBrush-Regular';
     src: url('/fonts/AlexBrush-Regular.ttf') format('truetype'); 
     font-weight: normal;
@@ -19,12 +25,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   @font-face {
-    font-family: 'waltograph';
-    src: url('/fonts/waltograph42.otf') format('opentype'); 
+    font-family: 'Matcha-EaLge';
+    src: url('/fonts/Matcha-EaLge.ttf') format('truetype'); 
     font-weight: normal;
     font-style: normal;
   }
   
+
 @import url('https://fonts.googleapis.com/css2?family=Bonheur+Royale&family=Cinzel+Decorative:wght@400;700;900&family=Dongle&family=Nanum+Brush+Script&family=Nanum+Pen+Script&family=Sofia&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
 
@@ -79,7 +86,7 @@ table {
   box-sizing: border-box;
 }
 body {
-  font-family: "waltograph", "AlexBrush-Regular", 'Pretty Dahlia', "Bonheur Royale",  system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family:  "AlexBrush-Regular", "waltograph", 'Pretty Dahlia', "Bonheur Royale", "Matcha-EaLge", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor}
 }
