@@ -36,52 +36,53 @@ const Box = styled(motion.div)`
     0 10px 20px rgba(0, 0, 0, 0.6);
 `;
 const box = {
-  invisible: {
-    x: 500,
+  entry: (isBack: boolean) => ({
+    x: isBack ? -500 : 500,
     opacity: 0,
     scale: 0,
-  },
-  visible: {
+  }),
+  center: {
     x: 0,
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 1,
+      duration: 0.3,
     },
   },
-  exit: {
-    x: -500,
+  exit: (isBack: boolean) => ({
+    x: isBack ? 500 : -500,
     opacity: 0,
     scale: 0,
     transition: {
-      duration: 1,
+      duration: 0.3,
     },
-  },
+  }),
 };
 
 function App() {
   const [visible, setVisible] = useState(1);
-  const nextPlease = () =>
+  const [back, setBack] = useState(false);
+  const nextPlease = () => {
+    setBack(false);
     setVisible((prev) => (prev === 10 ? 10 : prev + 1));
-  const prevPlease = () =>
+  };
+  const prevPlease = () => {
+    setBack(true);
     setVisible((next) => (next === 0 ? 0 : next - 1));
+  };
   return (
     <Wrapper>
-      {/* <button onClick={toggleShowing}>Click</button> */}
-      <AnimatePresence>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) =>
-          i === visible ? (
-            <Box
-              key={i}
-              variants={box}
-              initial="invisible"
-              animate="visible"
-              exit="exit"
-            >
-              {i}
-            </Box>
-          ) : null
-        )}
+      <AnimatePresence mode="wait" custom={back}>
+        <Box
+          custom={back}
+          key={visible}
+          variants={box}
+          initial="entry"
+          animate="center"
+          exit="exit"
+        >
+          {visible}
+        </Box>
       </AnimatePresence>
       <button onClick={nextPlease}>next</button>
       <button onClick={prevPlease}>이전으로</button>
