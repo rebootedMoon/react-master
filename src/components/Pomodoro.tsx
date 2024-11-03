@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { INIT_TIME, timerState } from "./atom";
+import { INIT_TIME, playState, timerState } from "./atom";
 
 const Container = styled.div`
   padding: 30px 10px;
   margin: 0 auto;
-  height: 100vh;
+  width: 100vw;
+  height: 86vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   /* align-items: center; */
   background-color: tomato;
-  max-width: 480px;
+  /* max-width: 480px; */
 `;
 const Header = styled.header`
   font-size: 48px;
@@ -105,22 +106,10 @@ const ResetSvg = styled.svg`
 `;
 
 function Pomodoro() {
-  const [isActive, setActive] = useState(false);
   const [timer, setTimer] = useRecoilState(timerState);
-
+  const [isActive, setActive] = useRecoilState(playState);
   const toggleActive = () => setActive((prev) => !prev);
 
-  useEffect(() => {
-    if (isActive) {
-      const intervalId = setInterval(() => {
-        setTimer((count) => {
-          if (count !== 0) return count - 1;
-          return INIT_TIME;
-        });
-      }, 1000);
-      return () => clearInterval(intervalId);
-    }
-  }, [isActive]);
   return (
     <Container>
       <Header>Pomodoro</Header>

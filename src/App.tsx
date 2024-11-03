@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-import Pomodoro from "./Pomodoro";
+import Pomodoro from "./components/Pomodoro";
+import Home from "./Home";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -68,7 +69,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Pomodoro />
+      <Home />
     </>
   );
 }
