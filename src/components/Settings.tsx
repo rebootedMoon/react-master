@@ -1,7 +1,14 @@
 import { useRecoilState } from "recoil";
 import { useState } from "react";
 import styled from "styled-components";
-import { timerState, roundState, goalState, INIT_TIME } from "./atom";
+import {
+  timerState,
+  roundState,
+  goalState,
+  INIT_TIME,
+  initialTimerState,
+  playState,
+} from "./atom";
 
 const Container = styled.div`
   padding: 30px 20px;
@@ -73,14 +80,23 @@ function Settings() {
   const [timer, setTimer] = useRecoilState(timerState);
   const [round, setRound] = useRecoilState(roundState);
   const [goal, setGoal] = useRecoilState(goalState);
+  const [isActive, setActive] = useRecoilState(playState);
+  const [initialTimer, setInitialTimer] =
+    useRecoilState(initialTimerState);
 
-  const [timerInput, setTimerInput] = useState(timer / 60);
-  const [roundInput, setRoundInput] = useState(round);
-  const [goalInput, setGoalInput] = useState(goal);
+  const [timerInput, setTimerInput] = useState(initialTimer); // 초기값을 사용하여 상태 설정
+  const [roundInput, setRoundInput] = useState(round.target);
+  const [goalInput, setGoalInput] = useState(goal.target);
 
-  const handleTimerSave = () => setTimer(timerInput * 60);
-  const handleRoundSave = () => setRound(roundInput);
-  const handleGoalSave = () => setGoal(goalInput);
+  const handleTimerSave = () => {
+    setInitialTimer(timerInput); // 초기 설정 상태 업데이트
+    setTimer(timerInput * 60); // 타이머 상태도 분을 초로 변환하여 업데이트
+    setActive(false);
+  };
+  const handleRoundSave = () =>
+    setRound((prev) => ({ ...prev, target: roundInput }));
+  const handleGoalSave = () =>
+    setGoal((prev) => ({ ...prev, target: goalInput }));
 
   return (
     <Container>
@@ -94,7 +110,7 @@ function Settings() {
           type="number"
           value={timerInput}
           onChange={(e) => setTimerInput(Number(e.target.value))}
-          placeholder={`${timer / 60}`}
+          placeholder={`${initialTimer}`} // 초기 설정값을 placeholder로 사용
         />
         <Button onClick={handleTimerSave}>Save Timer</Button>
       </SettingGroup>
