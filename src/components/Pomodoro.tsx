@@ -97,17 +97,17 @@ const RecordHolder = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  span: {
+    color: white;
+  }
 `;
 const RecordLabel = styled.span`
   font-size: 16px;
   font-weight: 600;
   margin-top: 8px;
+  color: white;
 `;
 
-const ResetSvg = styled.svg`
-  width: 32px;
-  height: 32px;
-`;
 const PauseIcon = styled.svg`
   width: 68px;
   height: 68px;
