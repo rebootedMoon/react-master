@@ -1,37 +1,34 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import CreateToDo from "./components/CreateToDo";
-import { toDoSelcector, toDoState } from "./components/atom";
+import {
+  categoryState,
+  toDoSelcector,
+  toDoState,
+} from "./components/atom";
 import ToDo from "./components/ToDo";
 
 function ToDoList() {
   const toDos = useRecoilValue(toDoState);
   const [toDo, doing, done] = useRecoilValue(toDoSelcector);
+  const [category, setCategory] = useRecoilState(categoryState);
+  const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
+    console.log(event.currentTarget.value);
+    setCategory(event.currentTarget.value);
+  };
   return (
     <div>
       <h1> ToDos</h1>
+
       <hr />
+      <select value={category} onInput={onInput}>
+        <option value="TO_DO">To Do</option>
+        <option value="DOING">Doing</option>
+        <option value="DONE">Done</option>
+      </select>
       <CreateToDo />
-      <hr />
-      <h2> To Do</h2>
-      <ul>
-        {toDo.map((toDo) => (
-          <ToDo key={toDo.id} {...toDo} />
-        ))}
-      </ul>
-      <hr />
-      <h2> Doing</h2>
-      <ul>
-        {doing.map((doing) => (
-          <ToDo key={doing.id} {...doing} />
-        ))}
-      </ul>
-      <hr />
-      <h2> Done</h2>
-      <ul>
-        {done.map((done) => (
-          <ToDo key={done.id} {...done} />
-        ))}
-      </ul>
+      {toDos.map((toDo) => (
+        <ToDo key={toDo.id} {...toDo} />
+      ))}
     </div>
   );
 }
