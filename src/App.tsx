@@ -2,7 +2,11 @@ import { createGlobalStyle } from "styled-components";
 import ToDoList from "./ToDoList";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { hourSelector, minuteState } from "./components/atom";
-
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "react-beautiful-dnd";
 const GlobalStyle = createGlobalStyle`
 
 html, body, div, span, applet, object, iframe,
@@ -58,7 +62,7 @@ table {
 body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color: ${(props) => props.theme.bgColor};
-  color: ${(props) => props.theme.textColor}
+  color: black;
 }
 a {
   text-decoration: none;
@@ -67,31 +71,38 @@ a {
 `;
 
 function App() {
-  const [minutes, setMinutes] = useRecoilState(minuteState);
-  const [hours, setHours] = useRecoilState(hourSelector);
-  const onMinuteChange = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
-    setMinutes(+event.currentTarget.value);
-  };
-  const onHourChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setHours(+event.currentTarget.value);
-  };
+  const onDragEnd = () => {};
   return (
-    <div>
-      <input
-        value={minutes}
-        onChange={onMinuteChange}
-        type="number"
-        placeholder="Minutes"
-      />
-      <input
-        value={hours}
-        onChange={onHourChange}
-        type="number"
-        placeholder="Hours"
-      />
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div>
+        <Droppable droppableId="one">
+          {(provided) => (
+            <ul ref={provided.innerRef} {...provided.droppableProps}>
+              <Draggable draggableId="first" index={0}>
+                {(provided) => (
+                  <li
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                  >
+                    <span {...provided.dragHandleProps}>One</span>
+                  </li>
+                )}
+              </Draggable>
+              <Draggable draggableId="second" index={1}>
+                {(provided) => (
+                  <li
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                  >
+                    <span {...provided.dragHandleProps}>Two</span>
+                  </li>
+                )}
+              </Draggable>
+            </ul>
+          )}
+        </Droppable>
+      </div>
+    </DragDropContext>
   );
 }
 export default App;
