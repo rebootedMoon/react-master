@@ -3,11 +3,13 @@ const Nav = styled.nav`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: red;
+  background-color: black;
   position: fixed;
   top: 0;
   height: 80px;
-  font-size: 12px;
+  font-size: 14px;
+  padding: 20px 60px;
+  color: white;
 `;
 
 const Col = styled.div`
@@ -35,6 +37,9 @@ const Item = styled.li`
   margin-right: 20px;
   color: ${(props) => props.theme.white.darker};
   transition: color 0.3s ease-in-out;
+  &:hover {
+    color: ${(props) => props.theme.white.lighter};
+  }
 `;
 
 const Search = styled.span`
