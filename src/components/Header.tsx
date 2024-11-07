@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useState } from "react";
 
 const Nav = styled.nav`
   width: 100%;
@@ -60,12 +61,20 @@ const Circle = styled(motion.span)`
   margin: 0 auto;
 `;
 const Search = styled.span`
+  display: flex;
+  align-items: center;
   color: white;
   svg {
     height: 25px;
   }
+  position: relative;
 `;
 
+const Input = styled(motion.input)`
+  transform-origin: right center;
+  position: absolute;
+  left: -150px;
+`;
 const logoVariants = {
   normal: {
     fillOpacity: 1,
@@ -80,6 +89,9 @@ const logoVariants = {
 function Header() {
   const homeMatch = useRouteMatch("/");
   const tvMatch = useRouteMatch("/tv");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const openSearch = () => setSearchOpen((prev) => !prev);
+
   console.log(homeMatch, tvMatch);
   return (
     <Nav>
@@ -112,7 +124,10 @@ function Header() {
       </Col>
       <Col>
         <Search>
-          <svg
+          <motion.svg
+            onClick={openSearch}
+            animate={{ x: searchOpen ? -180 : 0 }}
+            transition={{ type: "linear" }}
             strokeWidth="1.5"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -124,7 +139,12 @@ function Header() {
               strokeLinejoin="round"
               d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
             ></path>
-          </svg>
+          </motion.svg>
+          <Input
+            animate={{ scaleX: searchOpen ? 1 : 0 }}
+            transition={{ type: "linear" }}
+            placeholder="Search for Movie or tv show"
+          />
         </Search>
       </Col>
     </Nav>
