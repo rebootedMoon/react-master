@@ -5,7 +5,9 @@ import { makeImagePath } from "../utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  overflow-x: hidden;
+`;
 const Loader = styled.div`
   height: 20vh;
   display: flex;
@@ -33,29 +35,36 @@ const Banner = styled.div<{ bgPhoto: string }>`
     url(${(props) => props.bgPhoto});
   background-size: cover;
 `;
-const Slider = styled.div``;
+const Slider = styled.div`
+  position: relative;
+  top: -100px;
+`;
 
 const Row = styled(motion.div)`
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(6, 1fr);
+  position: absolute;
+  width: 100%;
 `;
 
 const Box = styled(motion.div)`
   background-color: white;
   height: 200px;
   margin-bottom: 5px;
+  color: red;
+  font-size: 36px;
 `;
 
 const rowVariants = {
   hidden: {
-    x: 1000,
+    x: window.outerWidth,
   },
   visible: {
     x: 0,
   },
   exit: {
-    x: -1000,
+    x: -window.outerWidth,
   },
 };
 function Home() {
@@ -89,14 +98,12 @@ function Home() {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
+                transition={{ type: "tween", duration: 5 }}
                 key={index}
               >
-                <Box />
-                <Box />
-                <Box />
-                <Box />
-                <Box />
-                <Box />
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <Box key={i}> {i} </Box>
+                ))}
               </Row>
             </AnimatePresence>
           </Slider>
