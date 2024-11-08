@@ -7,6 +7,7 @@ import { useState } from "react";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
+  padding-bottom: 200px;
 `;
 const Loader = styled.div`
   height: 20vh;
@@ -57,6 +58,12 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-image: url(${(props) => props.bgPhoto});
   background-size: cover;
   background-position: center center;
+  &:first-child {
+    transform-origin: center left;
+  }
+  &:last-child {
+    transform-origin: center right;
+  }
 `;
 
 const rowVariants = {
@@ -68,6 +75,20 @@ const rowVariants = {
   },
   exit: {
     x: -window.outerWidth,
+  },
+};
+const boxVariants = {
+  normal: {
+    scale: 1,
+  },
+  hover: {
+    scale: 1.3,
+    y: -50,
+    transition: {
+      delay: 0.5,
+      duration: 0.3,
+      type: "tween",
+    },
   },
 };
 function Home() {
@@ -83,7 +104,7 @@ function Home() {
       if (leaving) return;
       toggleLeaving();
       const totalMovies = data?.results.length - 1;
-      const maxIndex = Math.ceil(totalMovies / offset) - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
     }
   };
@@ -124,8 +145,12 @@ function Home() {
                   .slice(offset * index, offset * index + offset)
                   .map((movie) => (
                     <Box
+                      variants={boxVariants}
+                      initial="normal"
                       key={movie.id}
                       bgPhoto={makeImagePath(movie.backdrop_path)}
+                      whileHover="hover"
+                      transition={{ type: "tween" }}
                     />
                   ))}
               </Row>
