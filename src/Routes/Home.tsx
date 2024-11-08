@@ -99,7 +99,31 @@ const BigMovie = styled(motion.div)`
   left: 0;
   right: 0;
   margin: 0 auto;
-  background-color: red;
+  border-radius: 40px;
+  overflow: hidden;
+  background-color: ${(props) => props.theme.black.lighter};
+`;
+
+const BigCover = styled.div`
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  height: 300px;
+`;
+
+const BigTitle = styled.h3`
+  color: ${(props) => props.theme.white.lighter};
+  position: relative;
+  padding: 10px;
+  font-size: 36px;
+  top: -50px;
+`;
+
+const BigOverview = styled.p`
+  padding: 20px;
+  color: ${(props) => props.theme.white.lighter};
+  position: relative;
+  top: -50px;
 `;
 
 const rowVariants = {
@@ -246,13 +270,18 @@ function Home() {
                 >
                   {clickedMovie && (
                     <>
-                      <img
-                        src={makeImagePath(
-                          clickedMovie.backdrop_path,
-                          "w500"
-                        )}
+                      <BigCover
+                        style={{
+                          backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
+                            clickedMovie.backdrop_path,
+                            "w500"
+                          )})`,
+                        }}
                       />
-                      <h2>{clickedMovie.title}</h2>
+                      <BigTitle>{clickedMovie.title}</BigTitle>
+                      <BigOverview>
+                        {clickedMovie.overview}
+                      </BigOverview>
                     </>
                   )}
                 </BigMovie>
