@@ -174,6 +174,12 @@ function Home() {
   const onOverlayClicked = () => {
     history.push("/");
   };
+  const clickedMovie =
+    bigMovieMatch?.params.movieId &&
+    data?.results.find(
+      (movie) => movie.id === +bigMovieMatch.params.movieId
+    );
+  console.log(clickedMovie);
   return (
     <Wrapper>
       {isLoading ? (
@@ -237,7 +243,19 @@ function Home() {
                 <BigMovie
                   style={{ top: scrollY.get() + 100 }}
                   layoutId={bigMovieMatch.params.movieId}
-                />
+                >
+                  {clickedMovie && (
+                    <>
+                      <img
+                        src={makeImagePath(
+                          clickedMovie.backdrop_path,
+                          "w500"
+                        )}
+                      />
+                      <h2>{clickedMovie.title}</h2>
+                    </>
+                  )}
+                </BigMovie>
               </>
             ) : null}
           </AnimatePresence>
