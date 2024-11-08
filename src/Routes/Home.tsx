@@ -49,13 +49,12 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Box = styled(motion.div)<{ bgPhoto: string }>`
+const Box = styled(motion.div)`
   background-color: white;
   height: 200px;
   margin-bottom: 5px;
-  background-image: url(${(props) => props.bgPhoto});
-  background-size: cover;
-  background-position: center center;
+  position: relative;
+
   &:first-child {
     transform-origin: center left;
   }
@@ -63,7 +62,15 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
     transform-origin: center right;
   }
 `;
-
+const Img = styled(motion.image)<{ bgPhoto: string }>`
+  position: absolute;
+  top: 0;
+  background-image: url(${(props) => props.bgPhoto});
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+`;
 const Info = styled(motion.div)`
   padding: 10px;
   background-color: ${(props) => props.theme.black.lighter};
@@ -93,6 +100,7 @@ const boxVariants = {
     scale: 1,
   },
   hover: {
+    zIndex: 99,
     scale: 1.3,
     y: -50,
 
@@ -171,10 +179,12 @@ function Home() {
                       variants={boxVariants}
                       initial="normal"
                       key={movie.id}
-                      bgPhoto={makeImagePath(movie.backdrop_path)}
                       whileHover="hover"
                       transition={{ type: "tween" }}
                     >
+                      <Img
+                        bgPhoto={makeImagePath(movie.backdrop_path)}
+                      />
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>
                       </Info>
