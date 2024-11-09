@@ -126,25 +126,9 @@ function Header() {
       navAnimation.start("top");
     }
   });
-  const toggleSearch = () => {
-    if (searchOpen) {
-      inputAnimation.start({
-        scaleX: 0,
-      });
-    } else {
-      inputAnimation.start({
-        scaleX: 1,
-      });
-    }
-    setSearchOpen((prev) => !prev);
-  };
 
   console.log(homeMatch, nowPlayingMatch, comingSoonMatch);
-  const { register, handleSubmit } = useForm<IForm>();
-  const onValid = (data: IForm) => {
-    console.log(data);
-    history.push(`/search?keyword=${data.keyword}`);
-  };
+
   return (
     <Nav variants={navVariants} animate={navAnimation}>
       <Col>
@@ -180,33 +164,6 @@ function Header() {
             </Item>
           </Link>
         </Items>
-      </Col>
-      <Col>
-        <Search onSubmit={handleSubmit(onValid)}>
-          <motion.svg
-            onClick={toggleSearch}
-            animate={{ x: searchOpen ? -180 : 0 }}
-            transition={{ type: "linear" }}
-            strokeWidth="1.5"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            ></path>
-          </motion.svg>
-          <Input
-            {...register("keyword", { required: true, minLength: 2 })}
-            animate={inputAnimation}
-            initial={{ scaleX: 0 }}
-            transition={{ type: "linear" }}
-            placeholder="Search for Movie or tv show"
-          />
-        </Search>
       </Col>
     </Nav>
   );

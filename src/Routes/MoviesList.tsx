@@ -8,7 +8,7 @@ import {
 } from "../api";
 import styled from "styled-components";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useHistory,
   useLocation,
@@ -201,16 +201,14 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
 
   const bigMovieMatch = useRouteMatch<{ movieId: string }>(
     `${location.pathname.split("/movies")[0]}/movies/:movieId`
-    // `/movies/:movieId`
   );
 
   const { data: movieDetail, isLoading: isMovieDetailLoading } =
     useQuery(
       ["movieDetail", bigMovieMatch?.params.movieId],
       () => getMovie(bigMovieMatch?.params.movieId + ""),
-      { enabled: !!bigMovieMatch?.params.movieId } // movieId가 있을 때만 가져옴
+      { enabled: !!bigMovieMatch?.params.movieId }
     );
-  console.log("movieDetail.......", movieDetail);
   const history = useHistory();
   const { scrollY } = useScroll();
 
