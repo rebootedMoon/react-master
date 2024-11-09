@@ -10,8 +10,11 @@ import styled from "styled-components";
 import { makeImagePath } from "../utils";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useState } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
-import MovieDetail from "../components/MovieDetail";
+import {
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -171,20 +174,26 @@ const infoVariants = {
     },
   },
 };
-function Home() {
+interface IMoviesList {
+  queryFn: () => Promise<IGetMoviesResult>;
+  queryKey: [string, string];
+}
+
+function MoviesList({ queryKey, queryFn }: IMoviesList) {
   const { data, isLoading } = useQuery<IGetMoviesResult>({
-    queryKey: ["movies", "nowPlaying"],
-    queryFn: getComingSoon,
+    queryKey,
+    queryFn,
   });
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
+  const location = useLocation();
 
   const history = useHistory();
   const { scrollY } = useScroll();
   const bigMovieMatch = useRouteMatch<{ movieId: string }>(
-    "/movies/:movieId"
+    `${location.pathname.split("/movies")[0]}/movies/:movieId`
   );
-  console.log(bigMovieMatch);
+  console.log(`BIG.....${location.pathname}`, bigMovieMatch);
   const offset = 6;
   const increaseIndex = () => {
     if (data) {
@@ -199,11 +208,19 @@ function Home() {
   const toggleLeaving = () => {
     setLeaving((prev) => !prev);
   };
+
   const onBoxClicked = (movieId: number) => {
-    history.push(`/movies/${movieId}`);
+    const basePath = location.pathname.split("/movies")[0] || "/"; // 기본 경로 가져오기
+    if (basePath === "/") {
+      history.push(`/movies/${movieId}`);
+    } else {
+      history.push(`${basePath}/movies/${movieId}`);
+    }
+    console.log(`BasePath :${basePath}`);
   };
+
   const onOverlayClicked = () => {
-    history.push("/");
+    history.goBack();
   };
   const clickedMovie =
     bigMovieMatch?.params.movieId &&
@@ -264,7 +281,7 @@ function Home() {
             </AnimatePresence>
           </Slider>
 
-          {/* <AnimatePresence>
+          <AnimatePresence>
             {bigMovieMatch ? (
               <>
                 <Overlay
@@ -295,11 +312,10 @@ function Home() {
                 </BigMovie>
               </>
             ) : null}
-          </AnimatePresence> */}
-          <MovieDetail />
+          </AnimatePresence>
         </>
       )}
     </Wrapper>
   );
 }
-export default Home;
+export default MoviesList;
