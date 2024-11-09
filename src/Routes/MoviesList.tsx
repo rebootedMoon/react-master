@@ -1,6 +1,5 @@
 import { useQuery } from "react-query";
 import {
-  getComingSoon,
   getMovie,
   IGetMoviesResult,
   makeBgPath,
@@ -8,13 +7,12 @@ import {
 } from "../api";
 import styled from "styled-components";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   useHistory,
   useLocation,
   useRouteMatch,
 } from "react-router-dom";
-import MovieDetail from "../components/MovieDetail";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -121,6 +119,25 @@ const BigCover = styled.div`
   height: 300px;
 `;
 
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background: rgba(255, 0, 0, 0.7);
+  }
+`;
 const BigTitle = styled.h3`
   color: ${(props) => props.theme.white.lighter};
   position: relative;
@@ -137,12 +154,15 @@ const BigOverview = styled.p`
 `;
 
 const DetailInfo = styled.div`
+  padding-top: 10px;
   line-height: 1.2;
+  color: ${(props) => props.theme.white.darker};
 
   span {
+    color: inherit;
     display: block;
     a {
-      color: "inherit";
+      color: inherit;
       text-decoration: "none";
     }
   }
@@ -307,7 +327,7 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
                   animate={{ opacity: 1 }}
                 />
 
-                {/* <BigMovie
+                <BigMovie
                   style={{ top: scrollY.get() + 100 }}
                   layoutId={bigMovieMatch.params.movieId}
                 >
@@ -319,39 +339,42 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
                             clickedMovie.backdrop_path
                           )})`,
                         }}
-                      />
+                      >
+                        <CloseButton onClick={onOverlayClicked}>
+                          x
+                        </CloseButton>
+                      </BigCover>
                       <BigTitle>{clickedMovie.title}</BigTitle>
                       <BigOverview>
                         {clickedMovie.overview}
-                        <hr />
+
                         {isMovieDetailLoading ? (
                           "Loading"
                         ) : (
                           <>
                             <DetailInfo>
                               <span>
-                                Budget: $
+                                Budget : $
                                 {(+movieDetail.budget).toLocaleString()}
                               </span>
 
                               <span>
-                                Revenue: ${" "}
+                                Revenue : $
                                 {(+movieDetail.revenue).toLocaleString()}
                               </span>
 
                               <span>
-                                Runtime:
-                                {movieDetail.runtime} minutes
+                                Runtime : {movieDetail.runtime}{" "}
+                                minutes
                               </span>
 
                               <span>
-                                {" "}
-                                Rating:
+                                Rating :{" "}
                                 {movieDetail.vote_average.toFixed(1)}
                               </span>
 
                               <span>
-                                Homepage:
+                                Homepage:{" "}
                                 <a
                                   href={movieDetail.homepage}
                                   target="_blank"
@@ -366,13 +389,7 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
                       </BigOverview>
                     </>
                   )}
-                </BigMovie> */}
-                <MovieDetail
-                  clickedMovie={clickedMovie}
-                  movieDetail={movieDetail}
-                  isMovieDetailLoading={isMovieDetailLoading}
-                  scrollY={scrollY}
-                />
+                </BigMovie>
               </>
             ) : null}
           </AnimatePresence>
