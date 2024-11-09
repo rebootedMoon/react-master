@@ -14,6 +14,7 @@ import {
   useLocation,
   useRouteMatch,
 } from "react-router-dom";
+import MovieDetail from "../components/MovieDetail";
 
 const Wrapper = styled.div`
   overflow-x: hidden;
@@ -305,7 +306,8 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
                   exit={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 />
-                <BigMovie
+
+                {/* <BigMovie
                   style={{ top: scrollY.get() + 100 }}
                   layoutId={bigMovieMatch.params.movieId}
                 >
@@ -364,7 +366,13 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
                       </BigOverview>
                     </>
                   )}
-                </BigMovie>
+                </BigMovie> */}
+                <MovieDetail
+                  clickedMovie={clickedMovie}
+                  movieDetail={movieDetail}
+                  isMovieDetailLoading={isMovieDetailLoading}
+                  scrollY={scrollY}
+                />
               </>
             ) : null}
           </AnimatePresence>
