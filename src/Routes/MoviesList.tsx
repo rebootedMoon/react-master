@@ -2,13 +2,11 @@ import { useQuery } from "react-query";
 import {
   getComingSoon,
   getMovie,
-  getMovies,
-  getNowPlaying,
-  getPopular,
   IGetMoviesResult,
+  makeBgPath,
+  makeImagePath,
 } from "../api";
 import styled from "styled-components";
-import { makeImagePath } from "../utils";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useState } from "react";
 import {
@@ -258,9 +256,7 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
         <>
           <Banner
             onClick={increaseIndex}
-            bgPhoto={makeImagePath(
-              data?.results[0].backdrop_path || ""
-            )}
+            bgPhoto={makeBgPath(data?.results[0].backdrop_path || "")}
           >
             <Title>{data?.results[0].title}</Title>
             <Overview>{data?.results[0].overview}</Overview>
@@ -320,8 +316,7 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
                       <BigCover
                         style={{
                           backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
-                            clickedMovie.backdrop_path,
-                            "w500"
+                            clickedMovie.backdrop_path
                           )})`,
                         }}
                       />
