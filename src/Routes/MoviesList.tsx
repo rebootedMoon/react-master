@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import {
   getComingSoon,
+  getMovie,
   getMovies,
   getNowPlaying,
   getPopular,
@@ -105,7 +106,7 @@ const Overlay = styled(motion.div)`
 const BigMovie = styled(motion.div)`
   position: absolute;
   width: 30vw;
-  height: 60vh;
+  height: 65vh;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -136,6 +137,17 @@ const BigOverview = styled.p`
   top: -50px;
 `;
 
+const DetailInfo = styled.div`
+  line-height: 1.2;
+
+  span {
+    display: block;
+    a {
+      color: "inherit";
+      text-decoration: "none";
+    }
+  }
+`;
 const rowVariants = {
   hidden: {
     x: window.outerWidth,
@@ -183,17 +195,27 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
   const { data, isLoading } = useQuery<IGetMoviesResult>({
     queryKey,
     queryFn,
+    enabled: !useRouteMatch("/movies/:movieId"),
   });
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const location = useLocation();
 
-  const history = useHistory();
-  const { scrollY } = useScroll();
   const bigMovieMatch = useRouteMatch<{ movieId: string }>(
     `${location.pathname.split("/movies")[0]}/movies/:movieId`
+    // `/movies/:movieId`
   );
-  console.log(`BIG.....${location.pathname}`, bigMovieMatch);
+
+  const { data: movieDetail, isLoading: isMovieDetailLoading } =
+    useQuery(
+      ["movieDetail", bigMovieMatch?.params.movieId],
+      () => getMovie(bigMovieMatch?.params.movieId + ""),
+      { enabled: !!bigMovieMatch?.params.movieId } // movieId가 있을 때만 가져옴
+    );
+  console.log("movieDetail.......", movieDetail);
+  const history = useHistory();
+  const { scrollY } = useScroll();
+
   const offset = 6;
   const increaseIndex = () => {
     if (data) {
@@ -306,6 +328,46 @@ function MoviesList({ queryKey, queryFn }: IMoviesList) {
                       <BigTitle>{clickedMovie.title}</BigTitle>
                       <BigOverview>
                         {clickedMovie.overview}
+                        <hr />
+                        {isMovieDetailLoading ? (
+                          "Loading"
+                        ) : (
+                          <>
+                            <DetailInfo>
+                              <span>
+                                Budget: $
+                                {(+movieDetail.budget).toLocaleString()}
+                              </span>
+
+                              <span>
+                                Revenue: ${" "}
+                                {(+movieDetail.revenue).toLocaleString()}
+                              </span>
+
+                              <span>
+                                Runtime:
+                                {movieDetail.runtime} minutes
+                              </span>
+
+                              <span>
+                                {" "}
+                                Rating:
+                                {movieDetail.vote_average.toFixed(1)}
+                              </span>
+
+                              <span>
+                                Homepage:
+                                <a
+                                  href={movieDetail.homepage}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {movieDetail.homepage}
+                                </a>
+                              </span>
+                            </DetailInfo>
+                          </>
+                        )}
                       </BigOverview>
                     </>
                   )}
